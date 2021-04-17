@@ -9,19 +9,16 @@
 #include <string.h>
 #include <ctype.h>
 
-#define COUNT_SIZE 26
 #define BUFFER_SIZE 1024
 
 int max(int count[]);
 int min(int count[]);
 
-
 int main()
 {
   char buffer[BUFFER_SIZE], input, curchar;
-  int i = 0, count[COUNT_SIZE];
-  int other = 0;
-  int space = 0;
+  int i = 0, count[26];
+  int spaces = 0;
 
   // request and read in the string from the user
   printf("Enter text for analysis: ");
@@ -31,7 +28,7 @@ int main()
   buffer[i] = '\0';
 
   // set the letter counts to zero
-  for (i = 0; i < COUNT_SIZE; i++) count[i] = 0;
+  for (i = 0; i < 26; i++) count[i] = 0;
 
   // Count the occurences of each letter a-z in the string (case insenstive)
   // in the count array with count[0] for 'a', count[1] for 'b' and so on.
@@ -43,31 +40,31 @@ int main()
     curchar = toupper(buffer[i]);
     if (curchar >= 65 && curchar <= 90) count[curchar - 65]++;
     if (curchar == ' ') spaces++;
-    else other++;
   }
 
   // Create the letter analysis table
   printf("\n\nLetter Analysis Complete!");
   printf("\n\nLetter    Occurrences    Percentage\n");
   printf("*****************************************\n");
-  for (i = 0; i < COUNT_SIZE; i++) {
+  for (i = 0; i < 26; i++) {
     printf("%-10c%-15d%-15.2f\n", i + 65,
                                count[i],
                                (((float) count[i]) / strlen(buffer)) * 100);
   }
   printf("\nTotal spaces: %d\n", spaces);
-  // Output the number of other characters
-  printf("%-10s%-15d%-15.2f\n","Other",
-                              other,
-                              (((float) count[i]) / strlen(buffer)) * 100);
 
+
+  // Find the max and min occuring character in the string, in particular the
+  // position in the count array of each character
   int max_pos = max(count);
   int min_pos = min(count);
-
-  // Output the max and min occuring letter, again using 65 as an offset to
+  
+  // Output the max and min occuring character, again using 65 as an offset to
   // output the character character given ASCII A-Z range from 65-90
-  printf("\nThe most frequently occurring letter is %c.\n", max_pos + 65);
-  printf("The least frequently occurring letter is %c.\n", min_pos + 65);
+  printf("\nMost frequently occuring character: %c\n", 
+         max_pos + 65);
+  printf("Least frequently occurring character: %c.\n", 
+         min_pos + 65);
 
   return 0;
 }
